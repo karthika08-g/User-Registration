@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #77797d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: rgb(5, 5, 5);
+            padding: 30px;
+            width: 320px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ebe6e6;
+        }
+
+        h2 {
+            text-align: center;
+            color: #8331f6;
+        }
+
+        label {
+            color: #e2e0e6;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: rgb(240, 90, 90);
+            font-size: 13px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: hsl(285, 96%, 37%);
+            color: rgb(245, 239, 239);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: medium;
+        }
+
+        button:disabled {
+            background-color: #6a6969;
+            color: azure;
+            cursor: not-allowed;
+        }
+
+        #success {
+            color: green;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Registration Form</h2>
+
+        <form id="registerForm" novalidate>
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter your name">
+            <span class="error" id="nameError"></span>
+
+            <label for="email">Email</label>
+            <input type="text" id="email" placeholder="Enter your email">
+            <span class="error" id="emailError"></span>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter password">
+            <span class="error" id="passwordError"></span>
+
+            <button type="submit" id="submitBtn" disabled>
+                Register
+            </button>
+
+            <p id="success"></p>
+        </form>
+    </div>
+
+    <script>
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const submitBtn = document.getElementById("submitBtn");
+        const form = document.getElementById("registerForm");
+
+        function validateForm() {
+            let nameValid = nameInput.value.trim() !== "";
+            let emailValid =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim());
+            let passwordValid = passwordInput.value.length >= 6;
+
+            document.getElementById("nameError").textContent =
+                nameValid ? "" : "Name is required";
+
+            document.getElementById("emailError").textContent =
+                emailValid ? "" : "Enter a valid email address";
+
+            document.getElementById("passwordError").textContent =
+                passwordValid ? "" : "Password must be at least 6 characters";
+
+            submitBtn.disabled = !(nameValid && emailValid && passwordValid);
+
+            return nameValid && emailValid && passwordValid;
+        }
+
+        nameInput.addEventListener("input", validateForm);
+        emailInput.addEventListener("input", validateForm);
+        passwordInput.addEventListener("input", validateForm);
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            if (validateForm()) {
+                document.getElementById("success").textContent =
+                    "Registration successful!";
+
+                form.reset();
+                submitBtn.disabled = true;
+            }
+        });
+
+        validateForm();
+    </script>
+</body>
+</html>
